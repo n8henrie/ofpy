@@ -1,0 +1,16 @@
+# Config file for n8of
+
+[MAILDROP]
+# Your OmniFocus Maildrop address
+maildrop_address = example@sync.omnigroup.com
+
+[EMAIL]
+# Your email server info, defaults for Gmail
+username = example@gmail.com
+password = my_awesome_password
+port = 587
+server_address = smtp.gmail.com
+
+[DROPBOX]
+# The Dropbox folder that Hazel monitors
+dbox_folder = ~/Dropbox
