@@ -6,12 +6,12 @@ def main():
     config = configparser.ConfigParser()
 
     home_dir = os.path.expanduser('~')
-    config_file = os.path.join(home_dir, '.n8of_config')
+    config_file = os.path.join(home_dir, '.ofpy_config')
     if not os.path.exists(config_file):
          try:
-            shutil.copy2('../.n8of_config', config_file)
+            shutil.copy2('../.ofpy_config', config_file)
             print('Config file did not exist, so I copied a template '
-                'to ~/.n8of_config. Please edit with your config.')
+                'to ~/.ofpy_config. Please edit with your config.')
         except Exception as e:
             print(e)
             print("It doesn't look like you have a config file, but "
