@@ -13,4 +13,8 @@ server_address = smtp.gmail.com
 
 [DROPBOX]
 # The Dropbox folder that Hazel monitors
-dbox_folder = ~/Dropbox
+task_folder = ~/Dropbox
+
+[EDITOR]
+# Your preferred editor. If blank, will use your $EDITOR, or default to vim.
+editor = vim

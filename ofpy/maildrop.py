@@ -1,15 +1,10 @@
 # smtplib module send mail
 
 import smtplib
-import configparser
 import os.path
 import get_config
 
-def maildrop(task_name, task_note=None):
-    try:
-        config = get_config()
-    except Exception as e:
-        print('Config file problem.')
+def maildrop(task_note=None, task_name, config):
 
     maildrop_address = config['MAILDROP']['maildrop_address']
     SENDER = 'n8of.py'
