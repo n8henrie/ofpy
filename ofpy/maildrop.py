@@ -2,12 +2,12 @@
 
 import smtplib
 import os.path
-import get_config
+from email.mime.text import MIMEText
 
-def maildrop(task_note=None, task_name, config):
+def maildrop(task_note=None, task, config):
 
     maildrop_address = config['MAILDROP']['maildrop_address']
-    SENDER = 'n8of.py'
+    SENDER = 'ofpy.py'
     PORT = config['EMAIL']['port']
     SERVER_ADDRESS = config['EMAIL']['server_address']
     USER = config['EMAIL']['username']
@@ -18,15 +18,10 @@ def maildrop(task_note=None, task_name, config):
     server.starttls()
     server.login(USER, PASSWORD)
 
-    MSG = (
-            'To: {}'.format(maildrop_address)
-            '\n'
-            'From: {}'.format(SENDER)
-            '\n'
-            'Subject: {}'.format(task_name)
-            '\n'
-            task_note
-            )
+    msg = MIMEText(task_note)
+    msg['Subject'] = task
+    msg['From'] = SENDER
+    msg['To'] = maildrop_address
 
     server.sendmail(SENDER, [maildrop_address], MSG)
     server.quit()

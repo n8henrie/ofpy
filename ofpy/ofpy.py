@@ -11,29 +11,28 @@ the user will have Hazel and Dropbox add to OmniFocus
     '''
 
 import sys
-import .check_internet
-import .get_config
+import internet_on
+import get_config
 import datetime # todo: datetime timestamp setup
 import logging # todo: logging setup
 import os.path
-import .maildrop
+import maildrop
 
 def internet_on():
     try:
-        internet_is_on = check_internet.check_internet()
-        if internet_is_on:
-            return True
+        internet_on.internet_on()
+        return True
     except:
         return False
-    return False
 
 
 def main():
 
     try:
         config = get_config.get_config()
-    except:
-         print('Config file problem.')
+    except Exception as e:
+        print(e)
+        print('Config file problem.')
 
     if len(sys.argv) == 1:
         '''No arguments given with the script, so assume making a new task with note.'''
