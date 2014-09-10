@@ -1,4 +1,5 @@
-# Config file for n8of
+# Config file for ofpy
+# https://github.com/n8henrie/ofpy
 
 [MAILDROP]
 # Your OmniFocus Maildrop address
