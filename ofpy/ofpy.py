@@ -13,7 +13,7 @@ the user will have Hazel and Dropbox add to OmniFocus.
 import sys
 import internet_on
 import get_config
-import datetime # todo: datetime timestamp setup
+import datetime
 import os.path
 import maildrop
 import logging
