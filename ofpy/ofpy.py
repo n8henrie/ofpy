@@ -16,21 +16,23 @@ import get_config
 import datetime
 import os.path
 import maildrop
-import logging
 import subprocess
+import logging
+
 
 logging.basicConfig(
     level=logging.WARNING,
     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
-    )
-    
+)
+
 logger_name = str(__file__) + " :: " + str(__name__)
 logger = logging.getLogger(logger_name)
 
 logger.debug("Logging started.")
 
-def internet_on():
+
+def internet_is_on():
     try:
         internet_on.internet_on()
         return True
@@ -68,15 +70,18 @@ def main():
         subprocess.call([editor, task_path])
 
     elif len(sys.argv) > 1:
-        '''Arguments given with script, so assume a one-liner and email using maildrop.'''
+        '''Arguments given with script, so assume a one-liner. Email using maildrop given an internet
+        connection, otherwise write to a file as per above.'''
 
         task_list = sys.argv[1:]
         task = ' '.join(task_list)
 
-        if internet_on():
-            logger.debug("Passing to maildrop:\ntask: {}\nconfig:{}".format(task, config))
+        if internet_is_on():
+            logger.debug("Internet is on. Passing to maildrop:\ntask: {}\nconfig:{}".format(task, config))
             maildrop.maildrop(task, config)
         else:
+            logger.debug("Internet is off. Writing to file.")
+
             task_path = set_task_path(config)
             with open(task_path, 'w') as f:
                 f.write(task)
