@@ -2,6 +2,21 @@ import configparser
 import os.path
 import shutil
 
+import logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+#    filename='/Users/n8henrie/Dropbox/Launch/n8log.log',
+#    filemode='a'
+    )
+    
+logger_name = str(__file__) + " :: " + str(__name__)
+logger = logging.getLogger(logger_name)
+
+# requests_log = logging.getLogger("requests")
+# requests_log.setLevel(logging.WARNING)
+
 def get_config():
     config = configparser.ConfigParser()
 
