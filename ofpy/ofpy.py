@@ -20,11 +20,9 @@ import logging
 import subprocess
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.WARNING,
     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S',
-#    filename='/Users/n8henrie/Dropbox/Launch/n8log.log',
-#    filemode='a'
+    datefmt='%Y-%m-%d %H:%M:%S'
     )
     
 logger_name = str(__file__) + " :: " + str(__name__)
@@ -39,6 +37,15 @@ def internet_on():
     except:
         return False
 
+def set_task_path(config):
+    now = datetime.datetime.now()
+    ts = now.strftime('%Y%m%dT%H%M%S')
+
+    task_name = '{}.txt'.format(ts)
+    task_folder = os.path.expanduser(config['DROPBOX']['task_folder'])
+    task_path = os.path.join(task_folder, task_name)
+    return task_path
+
 
 def main():
 
@@ -52,14 +59,9 @@ def main():
 
     if len(sys.argv) == 1:
         '''No arguments given with the script, so assume making a new task with note.'''
-        now = datetime.datetime.now()
-        ts = now.strftime('%Y%m%dT%H%M%S')
 
-        task_name = '{}.txt'.format(ts)
-
+        task_path = set_task_path(config)
         editor = config['EDITOR']['editor']
-        task_folder = os.path.expanduser(config['DROPBOX']['task_folder'])
-        task_path = os.path.join(task_folder, task_name)
 
         logger.debug("Calling editor {} to path {}".format(editor, task_path))
 
@@ -71,8 +73,13 @@ def main():
         task_list = sys.argv[1:]
         task = ' '.join(task_list)
 
-        logger.debug("Passing to maildrop:\ntask: {}\nconfig:{}".format(task, config))
-        maildrop.maildrop(task, config)
+        if internet_on():
+            logger.debug("Passing to maildrop:\ntask: {}\nconfig:{}".format(task, config))
+            maildrop.maildrop(task, config)
+        else:
+            task_path = set_task_path(config)
+            with open(task_path, 'w') as f:
+                f.write(task)
 
 if __name__ == '__main__':
-	main()
+    main()
