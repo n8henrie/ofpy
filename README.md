@@ -16,12 +16,15 @@ Edit `~/.ofpy_config` and fill in your values.
 
 ## Usage
 Inline from the command line.
+
 `ofpy "This is my first task."`
 
 Inline from the command line without quotes (watch out for apostrophes and quotes)
+
 `ofpy This is my second task.`
 
 Input task in your favorite editor (set in config, defaults to vim).
+
 `ofpy`
 
 More details at http://n8henrie.com/
