@@ -27,4 +27,4 @@ Input task in your favorite editor (set in config, defaults to vim).
 
 `ofpy`
 
-More details at http://n8henrie.com/
+More details at http://n8henrie.com/2014/09/ofpy
