@@ -12,9 +12,10 @@ logging.basicConfig(
     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
     )
-    
+
 logger_name = str(__file__) + " :: " + str(__name__)
 logger = logging.getLogger(logger_name)
+
 
 def maildrop(task, config, task_note=None):
 
@@ -39,7 +40,7 @@ def maildrop(task, config, task_note=None):
     logger.debug("Attempting to login in with credentials:\n"
                  "user: {}\n"
                  "pass: {}\n"
-                 "server address: {}\n".format(USER, PASSWORD, 
+                 "server address: {}\n".format(USER, PASSWORD,
                                                SERVER_ADDRESS))
 
     server = smtplib.SMTP(SERVER_ADDRESS, PORT)
