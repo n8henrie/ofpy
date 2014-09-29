@@ -1,12 +1,14 @@
-import os
-
-long_description = 'Add tasks to OmniFocus from the command line.'
+'''setup.py
+Setup file for ofpy.
+https://github.com/n8henrie/ofpy
+'''
 
 # Markdown to RST documentation https://coderwall.com/p/qawuyq
 try:
     import pypandoc
 except (IOError, ImportError):
-    long_description = open('README.md').read()
+    with open('README.md') as r:
+        long_description = r.read()
 else:
     long_description = pypandoc.convert('README.md', 'rst')
 
