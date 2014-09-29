@@ -2,17 +2,51 @@
 Command line to OmniFocus script, via email or Dropbox and Hazel
 
 ## Installation
-download or `git clone`
 
+### Using pip
+
+1. Install as usual from PyPI.
+2. Put a file in your `$PATH` with your preferred Python version. 
+    * I'm using `/usr/local/bin/ofpy` as an example, change `OFPY_DEST` if needed
+3. Make it executable.
+
+#### Python3 Example:
 ```bash
-cd ofpy
-cp .ofpy_config ~/.ofpy_config
-cd ofpy
-chmod u+x ofpy.py
-sudo ln -s $PWD/ofpy.py /usr/local/bin/ofpy
+pip3 install ofpy
+
+OFPY_DEST=/usr/local/bin/ofpy
+OFPY_PATH=$(python3 -c 'import ofpy; print(str(ofpy.__path__[0]) + "/ofpy.py")')
+
+echo "/usr/bin/env python3 $OFPY_PATH" > $OFPY_DEST
+chmod u+x $OFPY_DEST
 ```
 
-Edit `~/.ofpy_config` and fill in your values.
+#### Python2 Example:
+```bash
+pip install ofpy
+
+OFPY_DEST=/usr/local/bin/ofpy
+OFPY_PATH=$(python -c "import os; import ofpy; print(os.path.join(os.getcwd(), ofpy.__path__[0], 'ofpy.py'))")
+
+echo "/usr/bin/env python $OFPY_PATH" > $OFPY_DEST
+chmod u+x $OFPY_DEST
+```
+It should ignore the `python3` shebang in `ofpy.py` if done this way. If not, edit the shebang.
+
+### Manually
+Download or `git clone`
+
+```bash
+cd ofpy/ofpy
+chmod u+x ofpy.py
+ln -s $PWD/ofpy.py /usr/local/bin/ofpy
+```
+Set up to default to Python3 -- edit the shebang in `ofpy.py` if you need Python2.
+
+### Configuration
+
+1. Run `ofpy` without arguments. You should see a logging message about creating `~/.ofpy_config`.
+2. Edit `~/.ofpy_config` and fill in your values.
 
 ## Usage
 Inline from the command line.
@@ -23,7 +57,7 @@ Inline from the command line without quotes (watch out for apostrophes and quote
 
 `ofpy This is my second task.`
 
-Input task in your favorite editor (set in config, defaults to vim).
+Compose the task in your favorite CLI editor (set in config, defaults to vim).
 
 `ofpy`
 

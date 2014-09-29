@@ -1,10 +1,13 @@
-#! /usr/bin/env python3
 """internet_on.py
 Checks to make sure that an internet connection is present before
-the rest of a script will run."""
+the rest of a script will run.
+"""
 
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib import urlopen
 
-import urllib.request
 import time
 
 

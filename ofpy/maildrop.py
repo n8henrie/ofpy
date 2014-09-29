@@ -1,4 +1,7 @@
-# smtplib module send mail
+"""maildrop.py
+Helps ofpy send tasks to OmniFocus by using the OmniGroup MailDrop
+service. See http://support.omnigroup.com/omnifocus-mail-drop
+"""
 
 import smtplib
 import os.path
@@ -30,12 +33,12 @@ def maildrop(task, config, task_note=None):
 
         task_note = "Sent on {} from {}".format(now_str, host)
 
-    maildrop_address = config['MAILDROP']['maildrop_address']
+    maildrop_address = config.get('MAILDROP', 'maildrop_address')
     SENDER = 'ofpy.py'
-    PORT = config['EMAIL']['port']
-    SERVER_ADDRESS = config['EMAIL']['server_address']
-    USER = config['EMAIL']['username']
-    PASSWORD = config['EMAIL']['password']
+    PORT = config.get('EMAIL', 'port')
+    SERVER_ADDRESS = config.get('EMAIL', 'server_address')
+    USER = config.get('EMAIL', 'username')
+    PASSWORD = config.get('EMAIL', 'password')
 
     logger.debug("Attempting to login in with credentials:\n"
                  "user: {}\n"
@@ -46,7 +49,12 @@ def maildrop(task, config, task_note=None):
     server = smtplib.SMTP(SERVER_ADDRESS, PORT)
     server.ehlo()
     server.starttls()
-    server.login(USER, PASSWORD)
+
+    try:
+        server.login(USER, PASSWORD)
+    except smtplib.SMTPAuthenticationError as e:
+        logger.exception("Smtplib didn't like your login credentials. Please"
+                         " double check your ~/.ofpy_config .")
 
     logger.debug("Task details:\n"
                  "task: {}\n"

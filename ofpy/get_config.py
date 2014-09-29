@@ -1,8 +1,17 @@
-import configparser
-import os.path
-import shutil
-import logging
+"""get_config.py
+Imports the config for ofpy, or tries to create one and exits if it doesn't
+exist yet.
+"""
 
+
+import os.path
+import logging
+import sys
+
+try:
+    from configparser import SafeConfigParser
+except ImportError:
+    from ConfigParser import SafeConfigParser
 
 logging.basicConfig(
     level=logging.WARNING,
@@ -48,7 +57,7 @@ editor = vim
 
 
 def get_config():
-    config = configparser.SafeConfigParser()
+    config = SafeConfigParser()
 
     try:
         custom_config_dir = os.path.expanduser(custom_config_dir)
@@ -60,15 +69,20 @@ def get_config():
     if not os.path.exists(config_path):
         try:
             make_config(config_path)
+
+        except Exception as e:
+            logger.exception("It doesn't look like you have a config file, but"
+                             " I wasn't able to create the template for you.")
+        else:
             logger.warning('Config file did not exist, so I created a template'
                            ' at ~/.ofpy_config. Please edit with your config.')
-        except Exception as e:
-            logger.exception(e)
-            logger.error("It doesn't look like you have a config file, but "
-                         "I wasn't able to create the template for you.")
+            sys.exit(0)
 
     logger.debug("Parsing config file {}".format(config_path))
     with open(config_path) as r:
-        config.read_file(r)
+        try:
+            config.read_file(r)
+        except AttributeError:
+            config.readfp(r)
 
     return config

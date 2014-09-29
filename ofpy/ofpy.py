@@ -1,14 +1,14 @@
 #! /usr/bin/env python3
-'''n8of.py
-A small module to add tasks to OmniFocus from my other non-Mac machines.
+"""ofpy.py
+A small module to add tasks to OmniFocus from the command line
+Designed with the goal of making it easy to add OF tasks from Linux when I'm 
+away from my Mac.
 
-# Planned functionality:
+Config file: ~/.ofpy_config (will create on first run).
 
-- Will test for internet connectivity
-- Given internet connectivity and a config, will email tasks to MailDrop
-- Without internet connectivity, will add to a Dropbox folder, anticipating
-the user will have Hazel and Dropbox add to OmniFocus.
-'''
+Use `ofpy` without arguments to open a task in your editor.
+Use `ofpy "My task"` to add a task directly with OmniGroup's MailDrop.
+"""
 
 import sys
 import internet_on
@@ -29,8 +29,7 @@ logging.basicConfig(
 logger_name = str(__file__) + " :: " + str(__name__)
 logger = logging.getLogger(logger_name)
 
-logger.debug("Logging started.")
-
+logger.debug("{}".format(sys.version))
 
 def internet_is_on():
     try:
@@ -45,7 +44,7 @@ def set_task_path(config):
     ts = now.strftime('%Y%m%dT%H%M%S')
 
     task_name = '{}.txt'.format(ts)
-    task_folder = os.path.expanduser(config['DROPBOX']['task_folder'])
+    task_folder = os.path.expanduser(config.get('DROPBOX', 'task_folder'))
     task_path = os.path.join(task_folder, task_name)
     return task_path
 
@@ -56,8 +55,8 @@ def main():
         logger.debug("Getting config.")
         config = get_config.get_config()
     except Exception as e:
-        logger.exception(e)
-        logger.error('Config file problem.')
+        logger.exception('Config file problem. If this is your first run,'
+                         ' you may need to edit ~/.ofpy_config.')
 
     logger.debug("sys.argv length: {}".format(len(sys.argv)))
 
@@ -65,7 +64,7 @@ def main():
         # No arguments given with the script, so make a new task in editor.
 
         task_path = set_task_path(config)
-        editor = config['EDITOR']['editor']
+        editor = config.get('EDITOR', 'editor')
 
         logger.debug("Calling editor {} to path {}".format(editor, task_path))
 
