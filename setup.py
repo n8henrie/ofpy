@@ -14,7 +14,7 @@ except (IOError, ImportError, RuntimeError) as e:
     except FileNotFoundError as e:
         long_description = 'Add tasks to OmniFocus from Linux'
 
-VERSION = '0.2'
+VERSION = '0.21'
 
 from distutils.core import setup
 setup(
