@@ -17,13 +17,13 @@ from distutils.core import setup
 setup(
     name='ofpy',
     packages=['ofpy'],
-    version='0.13',
+    version='0.14',
     description='Add tasks to OmniFocus from Linux',
     long_description=long_description,
     author='Nathan Henrie',
     author_email='nate@n8henrie.com',
     url='http://n8henrie.com/2014/09/ofpy',
-    download_url='https://github.com/n8henrie/ofpy/tarball/0.13',
+    download_url='https://github.com/n8henrie/ofpy/tarball/0.14',
     keywords=['omnifocus', 'productivity', 'tasklist'],
     classifiers=[
         'Development Status :: 3 - Alpha',
