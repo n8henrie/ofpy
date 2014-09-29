@@ -11,10 +11,10 @@ except (IOError, ImportError, RuntimeError) as e:
     try:
         with open('README.md') as r:
             long_description = r.read()
-    except FileNotFoundError as e:
+    except (FileNotFoundError, IOError) as e:
         long_description = 'Add tasks to OmniFocus from Linux'
 
-VERSION = '0.21'
+VERSION = '0.22'
 
 from distutils.core import setup
 setup(
