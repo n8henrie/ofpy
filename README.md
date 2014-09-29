@@ -6,7 +6,7 @@ Command line to OmniFocus script, via email or Dropbox and Hazel
 ### Using pip
 
 1. Install as usual from PyPI.
-2. Put a file in your `$PATH` with your preferred Python version. 
+2. Put a file in your `$PATH` with your preferred Python version.
     * I'm using `/usr/local/bin/ofpy` as an example, change `OFPY_DEST` if needed
 3. Make it executable.
 
@@ -17,7 +17,7 @@ pip3 install ofpy
 OFPY_DEST=/usr/local/bin/ofpy
 OFPY_PATH=$(python3 -c 'import ofpy; print(str(ofpy.__path__[0]) + "/ofpy.py")')
 
-echo "/usr/bin/env python3 $OFPY_PATH" > $OFPY_DEST
+echo -e '#!/bin/sh'"\n/usr/bin/env python3 $OFPY_PATH"' "$@"' > $OFPY_DEST
 chmod u+x $OFPY_DEST
 ```
 
@@ -28,7 +28,7 @@ pip install ofpy
 OFPY_DEST=/usr/local/bin/ofpy
 OFPY_PATH=$(python -c "import os; import ofpy; print(os.path.join(os.getcwd(), ofpy.__path__[0], 'ofpy.py'))")
 
-echo "/usr/bin/env python $OFPY_PATH" > $OFPY_DEST
+echo -e '#!/bin/sh'"\n/usr/bin/env python $OFPY_PATH"' "$@"' > $OFPY_DEST
 chmod u+x $OFPY_DEST
 ```
 It should ignore the `python3` shebang in `ofpy.py` if done this way. If not, edit the shebang.
