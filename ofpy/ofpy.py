@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 '''n8of.py
-A little module that will help me add tasks to OmniFocus from my other non-Mac machines.
+A small module to add tasks to OmniFocus from my other non-Mac machines.
 
 # Planned functionality:
 
@@ -39,6 +39,7 @@ def internet_is_on():
     except:
         return False
 
+
 def set_task_path(config):
     now = datetime.datetime.now()
     ts = now.strftime('%Y%m%dT%H%M%S')
@@ -52,15 +53,16 @@ def set_task_path(config):
 def main():
 
     try:
+        logger.debug("Getting config.")
         config = get_config.get_config()
     except Exception as e:
-        print(e)
-        print('Config file problem.')
+        logger.exception(e)
+        logger.error('Config file problem.')
 
     logger.debug("sys.argv length: {}".format(len(sys.argv)))
 
     if len(sys.argv) == 1:
-        '''No arguments given with the script, so assume making a new task with note.'''
+        # No arguments given with the script, so make a new task in editor.
 
         task_path = set_task_path(config)
         editor = config['EDITOR']['editor']
@@ -70,14 +72,16 @@ def main():
         subprocess.call([editor, task_path])
 
     elif len(sys.argv) > 1:
-        '''Arguments given with script, so assume a one-liner. Email using maildrop given an internet
-        connection, otherwise write to a file as per above.'''
+        # Arguments given with script, so assume a one-liner. Email using
+        # maildrop given an internet connection, otherwise write to a file as
+        # per above.
 
         task_list = sys.argv[1:]
         task = ' '.join(task_list)
 
         if internet_is_on():
-            logger.debug("Internet is on. Passing to maildrop:\ntask: {}\nconfig:{}".format(task, config))
+            logger.debug("Internet is on. Passing to maildrop:\ntask: "
+                         "{}\nconfig:{}".format(task, config))
             maildrop.maildrop(task, config)
         else:
             logger.debug("Internet is off. Writing to file.")
