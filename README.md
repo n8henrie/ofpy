@@ -5,43 +5,25 @@ Command line to OmniFocus script, via email or Dropbox and Hazel
 
 ### Using pip
 
-1. Install as usual from PyPI.
-2. Put a file in your `$PATH` with your preferred Python version.
-    * I'm using `/usr/local/bin/ofpy` as an example, change `OFPY_DEST` if needed
-3. Make it executable.
+`sudo pip3 install ofpy`
 
-#### Python3 Example:
-```bash
-pip3 install ofpy
+You may be able to get away without `sudo` if you're using a [Homebrew](http://brew.sh/ "Homebrew — The missing package manager for OS X") Python installation on OSX.
 
-OFPY_DEST=/usr/local/bin/ofpy
-OFPY_PATH=$(python3 -c 'import ofpy; print(str(ofpy.__path__[0]) + "/ofpy.py")')
-
-echo -e '#!/bin/sh'"\n/usr/bin/env python3 $OFPY_PATH"' "$@"' > $OFPY_DEST
-chmod u+x $OFPY_DEST
-```
-
-#### Python2 Example:
-```bash
-pip install ofpy
-
-OFPY_DEST=/usr/local/bin/ofpy
-OFPY_PATH=$(python -c "import os; import ofpy; print(os.path.join(os.getcwd(), ofpy.__path__[0], 'ofpy.py'))")
-
-echo -e '#!/bin/sh'"\n/usr/bin/env python $OFPY_PATH"' "$@"' > $OFPY_DEST
-chmod u+x $OFPY_DEST
-```
-It should ignore the `python3` shebang in `ofpy.py` if done this way. If not, edit the shebang.
+Obviously replace `pip3` with `pip` if you're still using python2 or if python3 is the default on your system (e.g. Arch).
 
 ### Manually
-Download or `git clone`
+
+You should also be able to just `chmod` and symlink to `ofpy.py` without difficulty -- that's how I as doing it for the first several versions. That said, if you're doing a manual installation, I'll assume you know what you're doing. In general:
+
+1. Download or `git clone`
+2. Add a [shebang](http://en.wikipedia.org/wiki/Shebang "Shebang") to `ofpy.py`, e.g. `#! /usr/bin/env python3`
+3. Do something along the lines of 
 
 ```bash
 cd ofpy/ofpy
 chmod u+x ofpy.py
 ln -s $PWD/ofpy.py /usr/local/bin/ofpy
 ```
-Set up to default to Python3 -- edit the shebang in `ofpy.py` if you need Python2.
 
 ### Configuration
 
@@ -60,5 +42,13 @@ Inline from the command line without quotes (watch out for apostrophes and quote
 Compose the task in your favorite CLI editor (set in config, defaults to vim).
 
 `ofpy`
+
+## Troubleshoting
+
+### Installation
+
+Double check permissions, e.g. `ls -l /usr/local/bin/ofpy`.
+
+
 
 More details at http://n8henrie.com/2014/09/ofpy

@@ -1,4 +1,3 @@
-#! /usr/bin/env python3
 """ofpy.py
 A small module to add tasks to OmniFocus from the command line
 Designed with the goal of making it easy to add OF tasks from Linux when I'm 
@@ -11,14 +10,20 @@ Use `ofpy "My task"` to add a task directly with OmniGroup's MailDrop.
 """
 
 import sys
-import internet_on
-import get_config
 import datetime
 import os.path
-import maildrop
 import subprocess
 import logging
 
+try:
+    from ofpy.get_config import get_config
+    from ofpy.internet_on import internet_on
+    from ofpy.maildrop import maildrop
+except ImportError as e:
+    from get_config import get_config
+    from internet_on import internet_on
+    from maildrop import maildrop
+    
 
 logging.basicConfig(
     level=logging.WARNING,
@@ -29,11 +34,11 @@ logging.basicConfig(
 logger_name = str(__file__) + " :: " + str(__name__)
 logger = logging.getLogger(logger_name)
 
-logger.debug("{}".format(sys.version))
+logger.debug(sys.version)
 
 def internet_is_on():
     try:
-        internet_on.internet_on()
+        internet_on()
         return True
     except:
         return False
@@ -53,7 +58,7 @@ def main():
 
     try:
         logger.debug("Getting config.")
-        config = get_config.get_config()
+        config = get_config()
     except Exception as e:
         logger.exception('Config file problem. If this is your first run,'
                          ' you may need to edit ~/.ofpy_config.')
@@ -81,7 +86,7 @@ def main():
         if internet_is_on():
             logger.debug("Internet is on. Passing to maildrop:\ntask: "
                          "{}\nconfig:{}".format(task, config))
-            maildrop.maildrop(task, config)
+            maildrop(task, config)
         else:
             logger.debug("Internet is off. Writing to file.")
 

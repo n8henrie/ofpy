@@ -14,7 +14,7 @@ except (IOError, ImportError, RuntimeError) as e:
     except (OSError, IOError) as e:
         long_description = 'Add tasks to OmniFocus from Linux'
 
-VERSION = '0.23'
+VERSION = '0.25'
 
 from distutils.core import setup
 setup(
@@ -28,6 +28,9 @@ setup(
     url='http://n8henrie.com/2014/09/ofpy',
     download_url='https://github.com/n8henrie/ofpy/tarball/{}'.format(VERSION),
     keywords=['omnifocus', 'productivity', 'tasklist'],
+    entry_points={
+        'console_scripts': 'ofpy = ofpy.ofpy:main'
+        },
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',

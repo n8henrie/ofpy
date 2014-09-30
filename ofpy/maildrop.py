@@ -4,7 +4,6 @@ service. See http://support.omnigroup.com/omnifocus-mail-drop
 """
 
 import smtplib
-import os.path
 from email.mime.text import MIMEText
 import logging
 import datetime

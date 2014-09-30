@@ -74,8 +74,9 @@ def get_config():
             logger.exception("It doesn't look like you have a config file, but"
                              " I wasn't able to create the template for you.")
         else:
-            logger.warning('Config file did not exist, so I created a template'
-                           ' at ~/.ofpy_config. Please edit with your config.')
+            msg = ('Config file did not exist, so I created a template'
+                   ' at ~/.ofpy_config. Please edit with your config.')
+            logger.warning(msg)
             sys.exit(0)
 
     logger.debug("Parsing config file {}".format(config_path))
